@@ -35,6 +35,7 @@ export class AuthService {
             };
 
             this.setCurrentSession(userTemp); // create a new session
+            this.removeFailedAttempts();
             this.removeBlockDate();
           } else {
             failedAttempts++; // increment failed attempts
