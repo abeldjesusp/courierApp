@@ -35,13 +35,11 @@ export class AuthService {
             };
 
             this.setCurrentSession(userTemp); // create a new session
+            this.removeBlockDate();
           } else {
             failedAttempts++; // increment failed attempts
             if(failedAttempts === 3) { // if failed attempts is equal to 3 block login for 1 hour
-              const today = new Date();
-              today.setSeconds(1 * 3600); // add 1 hour to the date taken at that time
-              sessionStorage.setItem('blockDate', today.getTime().toString());
-              this.removeFailedAttempts();
+              this.setBlockDate();
             } else {
               this.setFailedAttempts(failedAttempts); // set failed attempts in session
             }
@@ -107,12 +105,30 @@ export class AuthService {
     sessionStorage.removeItem('failedAttempts');
   }
 
+  // Set block date in the session
+  public setBlockDate(): void {
+    const today = new Date();
+    today.setSeconds(1 * 3600); // add 1 hour to the date taken at that time
+    sessionStorage.setItem('blockDate', today.getTime().toString());
+    this.removeFailedAttempts();
+  }
+
+  // get block date in session
+  public getBlockDate(): number {
+    const blockDate = Number(sessionStorage.getItem('blockDate'));
+    return blockDate;
+  }
+
+  // remove block date in session
+  public removeBlockDate(): void {
+    sessionStorage.removeItem('blockDate');
+  }
+
   // to verify the date to be blocked the user
   public blockedUser(): boolean {
-    const date = Number(sessionStorage.getItem('blockDate'));
     const blockDate = new Date();
 
-    blockDate.setTime(date);
+    blockDate.setTime(this.getBlockDate());
 
     if (blockDate > new Date()) {
       return true;
