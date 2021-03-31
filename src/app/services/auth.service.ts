@@ -5,9 +5,9 @@ import { Observable } from 'rxjs';
 
 // API ENDPOINT
 import { ENDPOINT } from '../config/config';
-import { UserModel } from '../models/user.model';
 
 // MODELS
+import { UserModel } from '../models/user.model';
 
 
 @Injectable({
@@ -15,29 +15,24 @@ import { UserModel } from '../models/user.model';
 })
 export class AuthService {
 
-  public tokenId: string;
+  public user: UserModel;
 
   constructor(private http: HttpClient) {
-    console.log(`${ENDPOINT}/membership/login`);
-    
   }
 
   public login(userCredential: { username: string, password: string }): Observable <any> {
-    console.log(userCredential);
-    
     return this.http.post(`${ENDPOINT}/membership/login`, userCredential).pipe(
       map((resp: any) => {
-        console.log(resp);
         
-       /*  if (resp.success) {
-          let user: UserModel;
-          user = {
+        if (resp.success) {
+          let userTemp: UserModel;
+          userTemp = {
             ...resp.responseObject,
             username: userCredential.username
           };
 
-          this.setCurrentSession(user);
-        } */
+          this.setCurrentSession(userTemp);
+        }
         
         return resp;
       })
@@ -45,25 +40,40 @@ export class AuthService {
   }
 
   public logout(): void {
-    localStorage.removeItem('currentUser');
-    localStorage.removeItem('expireDate');
-    localStorage.clear();
+    sessionStorage.removeItem('currentUser');
+    sessionStorage.removeItem('expireDate');
+    sessionStorage.clear();
   }
 
   private setCurrentSession(currentUser: UserModel): void {
-    localStorage.setItem('currentUser', JSON.stringify(currentUser));
+    this.user = currentUser;
+    sessionStorage.setItem('currentUser', JSON.stringify(currentUser));
 
     const today = new Date();
     today.setSeconds(5 * 3600); // add 5 hours to the date taken at that time
-    localStorage.setItem('expireDate', today.getTime().toString());
+    sessionStorage.setItem('expireDate', today.getTime().toString());
   }
 
-  public getUser() {
-    if (this.tokenId) {
-      const user = localStorage.getItem('currentUser');
-      return user;
+  public getUser(): UserModel {
+    const user = JSON.parse(sessionStorage.getItem('currentUser'));
+    return user;
+  }
+
+  public isAutenticated(): boolean {
+    //if (this.user) {
+    //  return false;
+    //}
+
+    const expira = Number(sessionStorage.getItem('expireDate'));
+    const expiraDate = new Date();
+
+    expiraDate.setTime(expira);
+
+    if (expiraDate > new Date()) {
+      return true;
     } else {
-      return null;
+      sessionStorage.removeItem('currentUser');
+      return false;
     }
   }
 }

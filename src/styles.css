@@ -1,1 +1,12 @@
 /* You can add global styles to this file, and also import other style files */
+.cursor-pointer {
+    cursor: pointer;
+}
+
+/* .cursor-pointer:hover {
+    text-decoration: none;
+} */
+
+.cursor-pointer:focus {
+    outline-color: transparent;
+}

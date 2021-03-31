@@ -3,6 +3,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
+import { PageModule } from './pages/page.module';
 
 // ROUTER
 import { AppRoutingModule } from './app-routing.module';
@@ -10,17 +11,15 @@ import { AppRoutingModule } from './app-routing.module';
 // COMPONENTS
 import { AppComponent } from './app.component';
 import { LoginComponent } from './login/login.component';
-import { HomeComponent } from './pages/home/home.component';
-import { PackagesComponent } from './pages/packages/packages.component';
-import { PagesComponent } from './pages/pages/pages.component';
+import { PagesComponent } from './pages/pages.component';
+import { NavbarComponent } from './components/navbar/navbar.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     LoginComponent,
-    HomeComponent,
-    PackagesComponent,
-    PagesComponent
+    PagesComponent,
+    NavbarComponent
   ],
   imports: [
     BrowserModule,

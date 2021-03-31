@@ -37,7 +37,6 @@ export class LoginComponent implements OnInit {
   // TRIGGER METHOD LOGIN
   onSubmit() {
     this.userCredential = this.form.value;
-    console.log(this.userCredential);
 
     Swal.fire({
       allowOutsideClick: false,
@@ -48,17 +47,15 @@ export class LoginComponent implements OnInit {
 
     this.auth.login(this.userCredential).subscribe((resp: any) => {
       Swal.close();
-      console.log(resp);
-
-      /* if (!resp.message) {
-        this.router.navigateByUrl('/panel/dashboard');
+      if (resp.success) {
+        this.router.navigateByUrl('/panel/home');
       } else {
         Swal.fire({
           icon: 'error',
           title: 'Error al autenticar',
-          text: resp.message
+          text: resp.exception
         });
-      } */
+      }
     }, (err: any) => {
       console.log(err);
       Swal.fire({
