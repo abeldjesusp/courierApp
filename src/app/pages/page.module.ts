@@ -7,11 +7,14 @@ import { PAGES_ROUTES } from './page.routes';
 // Pages
 import { HomeComponent } from './home/home.component';
 import { PackagesComponent } from './packages/packages.component';
+import { LoandingComponent } from '../components/loanding/loanding.component';
+
 
 @NgModule({
   declarations: [
     HomeComponent,
-    PackagesComponent
+    PackagesComponent,
+    LoandingComponent
   ],
   imports: [
     CommonModule,

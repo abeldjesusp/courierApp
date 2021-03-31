@@ -8,9 +8,38 @@
 
 <hr>
 
-<div class="row">
-    <div class="col-sm-4">
-        
+<app-loanding *ngIf="loanding"></app-loanding>
+
+<div class="row" *ngIf="!loanding">
+    <div class="col-sm-4" *ngFor="let package of packages">
+        <div class="card border-primary mb-4">
+            <div class="card-body">
+                <div class="d-flex justify-content-between align-items-start">
+                    <p class="text-primary">{{ package.internalTracking}}</p>
+                    <p class="text-primary">{{ package.priceToPay | currency:'DOP':'symbol-narrow' }}</p>
+                </div>
+                <div class="d-flex justify-content-between align-items-start">
+                    <p><b>Courier</b></p>
+                    <p>{{ package.courier }}</p>
+                </div>
+                <div class="d-flex justify-content-between align-items-start">
+                    <p><b>Tracking number</b></p>
+                    <p>{{ package.courierTracking }}</p>
+                </div>
+                <div class="d-flex justify-content-between align-items-start">
+                    <p><b>Remitente</b></p>
+                    <p>{{ package.supplier }}</p>
+                </div>
+                <div class="d-flex justify-content-between align-items-start">
+                    <p><b>Contenido</b></p>
+                    <p>{{ package.description }}</p>
+                </div>
+                <div class="d-flex justify-content-between align-items-start">
+                    <p><b>Libras</b></p>
+                    <p>{{ package.weight }}</p>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
 

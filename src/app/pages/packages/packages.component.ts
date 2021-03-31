@@ -15,19 +15,18 @@ import { PackagesService } from 'src/app/services/packages.service';
 })
 export class PackagesComponent implements OnInit {
   public packages: PackageModel[] = [];
-  public loandig: boolean;
+  public loanding: boolean;
 
   constructor(private packagesService: PackagesService,
               private authService: AuthService) { }
 
   ngOnInit() {
-    this.loandig = true;
+    this.loanding = true;
 
+    // Get packages
     this.packagesService.getPackages(this.authService.getUser().username).subscribe((resp: PackageModel[]) => {
       this.packages = resp;
-      console.log(this.packages);
-      
-      this.loandig = false;
+      this.loanding = false;
     });
   }
 

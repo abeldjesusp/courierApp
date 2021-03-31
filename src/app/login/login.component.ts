@@ -47,7 +47,7 @@ export class LoginComponent implements OnInit {
 
     this.auth.login(this.userCredential).subscribe((resp: any) => {
       Swal.close();
-      if (resp.success) {
+      if (resp.success) { // if true navigate to home view
         this.router.navigateByUrl('/panel/home');
       } else {
         Swal.fire({
@@ -65,5 +65,4 @@ export class LoginComponent implements OnInit {
       });
     });
   }
-
 }
